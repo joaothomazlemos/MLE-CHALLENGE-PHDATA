@@ -1,0 +1,16 @@
+# GitHub CI Pipeline Configuration
+# Simple phase definition - delegates to reusable workflows
+
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  ci-pipeline:
+    name: Run CI Pipeline
+    uses: ./.github/workflows/common.yml

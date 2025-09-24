@@ -46,7 +46,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Set up Python
+      - name: Set up Python (only for model generation)
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -59,20 +59,6 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
-      
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest requests
       
       - name: Build Docker containers
         run: |
@@ -87,8 +73,16 @@ jobs:
           echo "Waiting for API to be ready..."
           timeout 60s bash -c 'until curl -f http://localhost:8080/health; do sleep 2; done' || (echo "API failed to start" && docker-compose -f docker-compose.scale.yml logs && exit 1)
       
-      - name: Run integration tests (including Docker tests)
-        run: pytest tests/integration/ -v --log-cli-level=INFO
+      - name: Run integration tests
+        run: |
+          # Run integration tests inside a temporary container with network access to the running services
+          docker run --rm --network container:$(docker-compose -f docker-compose.scale.yml ps -q nginx) \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            python:3.11-slim bash -c "
+              pip install pytest requests &&
+              pytest tests/integration/ -v --log-cli-level=INFO
+            "
       
       - name: Stop Docker containers
         if: always()

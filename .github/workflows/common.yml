@@ -81,7 +81,8 @@ jobs:
             -v ${{ github.workspace }}:/workspace \
             -w /workspace \
             python:3.11-slim bash -c "
-              pip install pytest requests &&
+              pip install --upgrade pip &&
+              pip install pytest requests pandas numpy &&
               pytest tests/integration/ -v --log-cli-level=INFO
             "
       

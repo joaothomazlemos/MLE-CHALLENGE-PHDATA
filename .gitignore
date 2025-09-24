@@ -1,0 +1,9 @@
+model/*
+*.pyc
+README_API.md
+DEPLOYMENT_STRATEGY.md
+.venv
+.vscode
+*.pytest_cache
+*__pycache__*
+logs/

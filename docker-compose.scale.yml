@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # Multiple API instances for scaling
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: sound-realty-api:latest
+    environment:
+      - PYTHONPATH=/app
+      - PORT=8000
+    volumes:
+      - ./model:/app/model:ro
+      - ./data:/app/data:ro
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      replicas: 3  # Scale to 3 instances
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    networks:
+      - api-network
+
+  # NGINX Load Balancer
+  nginx:
+    image: nginx:alpine
+    container_name: house-price-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - api-network
+
+  # Redis for caching predictions (optional)
+  # Commented out to simplify deployment - can be enabled later if needed
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: house-price-redis
+  #   command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+  #   volumes:
+  #     - redis_data:/data
+  #   restart: unless-stopped
+  #   networks:
+  #     - api-network
+
+# volumes:
+  # redis_data:
+  #   driver: local
+
+networks:
+  api-network:
+    driver: bridge

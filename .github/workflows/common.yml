@@ -38,6 +38,7 @@ jobs:
 
   integration-testing:
     runs-on: ubuntu-latest
+    needs: unit-testing
     services:
       docker:
         image: docker:dind

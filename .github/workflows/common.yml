@@ -60,7 +60,7 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
-      
+  
       - name: Build Docker containers
         run: |
           docker-compose -f docker-compose.scale.yml build --no-cache
@@ -74,17 +74,13 @@ jobs:
           echo "Waiting for API to be ready..."
           timeout 60s bash -c 'until curl -f http://localhost:8080/health; do sleep 2; done' || (echo "API failed to start" && docker-compose -f docker-compose.scale.yml logs && exit 1)
       
-      - name: Run integration tests
+      - name: Install test dependencies
         run: |
-          # Run integration tests inside a temporary container with network access to the running services
-          docker run --rm --network container:$(docker-compose -f docker-compose.scale.yml ps -q nginx) \
-            -v ${{ github.workspace }}:/workspace \
-            -w /workspace \
-            python:3.11-slim bash -c "
-              pip install --upgrade pip &&
-              pip install pytest requests pandas numpy &&
-              pytest tests/integration/ -v --log-cli-level=INFO
-            "
+          python -m pip install --upgrade pip
+          pip install pytest requests pandas numpy
+      
+      - name: Run integration tests
+        run: pytest tests/integration/ -v --log-cli-level=INFO
       
       - name: Stop Docker containers
         if: always()

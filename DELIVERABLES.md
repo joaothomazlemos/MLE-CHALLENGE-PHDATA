@@ -23,7 +23,7 @@ This document demonstrates completion of all project requirements and showcases 
                    │              │────│  API        │
                    │              │    │ Instance 3  │
                    └──────────────┘    └─────────────┘
-  
+
 ```
 
 ## CORE REQUIREMENTS COMPLETION
@@ -32,7 +32,7 @@ This document demonstrates completion of all project requirements and showcases 
 
 **Requirement**: Deploy the model as an endpoint on a RESTful service which receives JSON POST data.
 
-**Implementation**: 
+**Implementation**:
 - **Technology Stack**: FastAPI + Docker + NGINX + Gunicorn
 - **Main Endpoint**: `POST /api/v1/prediction/predict`
 - **Health Check**: `GET /health`
@@ -123,7 +123,7 @@ curl -X POST http://localhost:8080/api/v1/prediction/predict/minimal -H "Content
 
 #### B) **Comprehensive Test Suite**
 - **Unit Tests**: tests covering API functionality, data validation, error handling
-- **Integration Tests**: tests simulating real API usage scenarios like valid/invalid requests, edge cases 
+- **Integration Tests**: tests simulating real API usage scenarios like valid/invalid requests, edge cases
 
 
 **Evidence**:
@@ -170,7 +170,7 @@ pytest tests/integration/test_integration.py::TestDockerIntegration -v --log-cli
 - The model learned patterns optimized for the full dataset (mid/high-price dominated)
 - Low-price houses have different value drivers not well captured by current features
 
-**Business Implication**: 
+**Business Implication**:
 - Model works well overall but requires caution for houses under $360,000
 
 #### **Business Recommendations**:
@@ -226,7 +226,7 @@ python evaluate_model.py
 
 ### Deployment Strategy
 
-**GitHub-to-AWS Pipeline**: 
+**GitHub-to-AWS Pipeline**:
 - Manual-controlled deployment via GitHub Actions
 - ECR to store Docker images
 - AWS ECS SageMaker for model serving
@@ -259,7 +259,4 @@ python evaluate_model.py
 
 ## Shutting Down the Service and cleaning up
 
-docker-compose -f docker-compose.scale.yml down && docker-compose -f docker-compose.scale.yml up -d
-
-
-
+docker-compose -f docker-compose.scale.yml down

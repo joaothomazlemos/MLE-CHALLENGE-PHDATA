@@ -178,7 +178,10 @@ pytest tests/integration/test_integration.py::TestDockerIntegration -v --log-cli
 2. Model shows good balance between bias and variance
 3. Be cautious with predictions on very low-price properties (<$360K), not recommended
 
-**Evidence**: Run `python evaluate_model.py` for complete analysis
+**Evidence**: Run below for complete analysis
+```bash
+python evaluate_model.py
+```
 
 ---
 

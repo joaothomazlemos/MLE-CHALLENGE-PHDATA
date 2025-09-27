@@ -7,9 +7,8 @@ to demonstrate the API's capabilities for Sound Realty's business use case.
 
 import requests
 import pandas as pd
-import json
 import sys
-from typing import Dict, List
+from typing import List
 
 API_BASE_URL = "http://localhost:8000"
 PREDICTION_BASE_URL = f"{API_BASE_URL}/api/v1/prediction"

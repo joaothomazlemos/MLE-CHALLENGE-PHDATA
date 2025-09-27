@@ -7,14 +7,14 @@ to demonstrate the API's scaling capabilities through NGINX load balancer.
 
 import requests
 import pandas as pd
-import json
 import sys
 import time
-from typing import Dict, List
+from app.internal.config import get_config
 
-API_BASE_URL = "http://localhost:8080"
+config = get_config()
+API_BASE_URL = config.API_BASE_URL
 PREDICTION_BASE_URL = f"{API_BASE_URL}/api/v1/prediction"
-FUTURE_EXAMPLES_PATH = "data/future_unseen_examples.csv"
+FUTURE_EXAMPLES_PATH = config.FUTURE_EXAMPLES_PATH
 
 def check_server_health() -> bool:
     """Check if the FastAPI server is running and healthy through load balancer."""

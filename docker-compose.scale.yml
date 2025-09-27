@@ -53,22 +53,6 @@ services:
     networks:
       - api-network
 
-  # Redis for caching predictions (optional)
-  # Commented out to simplify deployment - can be enabled later if needed
-  # redis:
-  #   image: redis:7-alpine
-  #   container_name: house-price-redis
-  #   command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
-  #   volumes:
-  #     - redis_data:/data
-  #   restart: unless-stopped
-  #   networks:
-  #     - api-network
-
-# volumes:
-  # redis_data:
-  #   driver: local
-
 networks:
   api-network:
     driver: bridge

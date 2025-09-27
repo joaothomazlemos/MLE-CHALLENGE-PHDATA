@@ -8,6 +8,7 @@ import requests
 import time
 import pytest
 import logging
+import concurrent.futures
 
 logger = logging.getLogger(__name__)
 
@@ -191,8 +192,7 @@ class TestDockerIntegration:
     
     def test_concurrent_requests(self):
         """Test API handling of concurrent requests."""
-        import concurrent.futures
-        import threading
+        
         
         house_data = {
             "bedrooms": 3,

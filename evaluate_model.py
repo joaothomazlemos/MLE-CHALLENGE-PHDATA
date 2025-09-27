@@ -11,18 +11,19 @@ Based on create_model.py with focus on practical business insights.
 import json
 import pickle
 import warnings
-from typing import List, Tuple
-
+from typing import Tuple
+from app.internal.config import get_config
 import numpy as np
 import pandas as pd
 from sklearn import model_selection, metrics
 
 warnings.filterwarnings('ignore')
 
-SALES_PATH = "data/kc_house_data.csv"
-DEMOGRAPHICS_PATH = "data/zipcode_demographics.csv"
-MODEL_PATH = "model/model.pkl"
-FEATURES_PATH = "model/model_features.json"
+config = get_config()
+SALES_PATH = config.SALES_PATH
+DEMOGRAPHICS_PATH = config.DEMOGRAPHICS_PATH
+MODEL_PATH = config.MODEL_PATH
+FEATURES_PATH = config.FEATURES_PATH
 
 SALES_COLUMN_SELECTION = [
     'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'floors',

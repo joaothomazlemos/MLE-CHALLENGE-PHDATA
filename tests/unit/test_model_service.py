@@ -5,13 +5,11 @@ Tests the core model loading, prediction, and data processing functionality.
 """
 
 import pytest
-import json
 import pandas as pd
 from unittest.mock import Mock, patch, mock_open
-from pathlib import Path
 
 from app.services.model_service import ModelService
-from app.internal.exceptions import ModelLoadError, PredictionError
+from app.internal.exceptions import ModelLoadError
 
 
 class TestModelService:
@@ -76,7 +74,7 @@ class TestModelService:
         mock_pickle.return_value = mock_model
         
         with patch('app.services.model_service.json.load') as mock_json, \
-             patch('app.services.model_service.pd.read_csv') as mock_csv:
+            patch('app.services.model_service.pd.read_csv') as mock_csv:
             mock_json.return_value = ['feature1', 'feature2']
             mock_csv.return_value = pd.DataFrame({'zipcode': ['98103']})
             

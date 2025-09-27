@@ -59,8 +59,8 @@ This document demonstrates completion of all project requirements and showcases 
 - Automatically joins demographic data from `zipcode_demographics.csv`
 - Input validation for required house features
 - Error handling for missing zipcodes
-- Caching layer with Redis (theoretical implementation)
-- * SQL or NoSQL database for backend data storage like AWS RDS (theoretical implementation)
+- * Caching layer with Redis (theoretical implementation)
+- * SQL or NoSQL database for backend demographics data storage like AWS RDS (theoretical implementation)
 
 **Setup**:
 ```bash

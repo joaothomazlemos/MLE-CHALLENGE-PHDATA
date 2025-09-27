@@ -28,6 +28,7 @@ class Config(BaseSettings):
     api_host: str = Field(default="0.0.0.0", env="API_HOST")
     api_port: int = Field(default=8000, env="API_PORT")
     api_workers: int = Field(default=1, env="API_WORKERS")
+    api_base_url: str = Field(default="http://localhost:8080", env="API_BASE_URL")
 
     model_path: str = Field(default="model/model.pkl", env="MODEL_PATH")
     model_features_path: str = Field(
@@ -35,6 +36,9 @@ class Config(BaseSettings):
     )
     demographics_path: str = Field(
         default="data/zipcode_demographics.csv", env="DEMOGRAPHICS_PATH"
+    )
+    future_examples_path: str = Field(
+        default="data/future_unseen_examples.csv", env="FUTURE_EXAMPLES_PATH"
     )
 
     title: str = "Sound Realty House Price Prediction API"
@@ -70,6 +74,10 @@ class Config(BaseSettings):
     def get_demographics_path(self) -> Path:
         """Get the demographics file path as Path object."""
         return Path(self.demographics_path)
+
+    def get_future_examples_path(self) -> Path:
+        """Get the future examples file path as Path object."""
+        return Path(self.future_examples_path)
 
 
 @lru_cache()

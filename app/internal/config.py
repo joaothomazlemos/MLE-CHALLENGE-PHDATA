@@ -40,6 +40,7 @@ class Config(BaseSettings):
     future_examples_path: str = Field(
         default="data/future_unseen_examples.csv", env="FUTURE_EXAMPLES_PATH"
     )
+    sales_path: str = Field(default="data/kc_house_data.csv", env="SALES_PATH")
 
     title: str = "Sound Realty House Price Prediction API"
     description: str = (

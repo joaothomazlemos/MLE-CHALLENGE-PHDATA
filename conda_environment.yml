@@ -22,6 +22,10 @@ dependencies:
 - pytest>=7.4.0
 - pytest-asyncio>=0.21.0
 - httpx>=0.25.0  # For testing FastAPI endpoints
+# Code formatting and linting tools
+- isort>=5.0.0
+- black>=22.0.0
+- flake8>=4.0.0
 # Pip dependencies that might not be available via conda
 - pip
 - pip:

@@ -9,8 +9,8 @@ and demographic data.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import prediction_router
 from app.internal.config import get_config
+from app.routers import prediction_router
 
 config = get_config()
 
@@ -19,7 +19,7 @@ app = FastAPI(
     description=config.description,
     version=config.version,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 app.add_middleware(
@@ -40,7 +40,7 @@ async def root():
         "message": config.title,
         "version": config.version,
         "docs": "/docs",
-        "status": "healthy"
+        "status": "healthy",
     }
 
 
@@ -52,4 +52,5 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host=config.api_host, port=config.api_port)

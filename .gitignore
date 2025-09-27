@@ -6,3 +6,4 @@ DEPLOYMENT_STRATEGY.md
 *.pytest_cache
 *__pycache__*
 logs/
+setup_interactive.sh

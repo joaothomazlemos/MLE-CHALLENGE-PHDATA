@@ -41,14 +41,26 @@ This document demonstrates completion of all project requirements and showcases 
 
 **Scaling Considerations Addressed**:
 - Horizontal Scaling: Docker Compose with multiple API replicas
-- Load Balancing: NGINX reverse proxy with round-robin distribution  
-- Zero-Downtime Deployment: Rolling deployment strategy
-- Resource Management: Configurable worker processes and memory limits
+- Load Balancing: NGINX reverse proxy with round-robin distribution
+- Resource Management: Configurable worker processes and memory limits set in Docker Compose
+- * CPU and memory limits could be set on the AWS ECS task definitions or K8s manifest - theoretical implementation
+- * Zero-Downtime Deployment: Rolling deployment strategy - theoretical implementation on AWS SageMaker endpoints
+
+**Monitoring & Logging**:
+- Structured logging with log levels
+- Health check endpoint for uptime monitoring
+- * Integration with monitoring tools (e.g., Prometheus, Grafana, AWS CloudWatch, SageMaker Clarify) - theoretical implementation
+
+**Deployment**:
+- Local Deployment: Docker Compose for multi-container setup
+- * Cloud Deployment: AWS ECS with Fargate or SageMaker endpoints - theoretical implementation
 
 **Backend Data Integration**:
 - Automatically joins demographic data from `zipcode_demographics.csv`
 - Input validation for required house features
 - Error handling for missing zipcodes
+- Caching layer with Redis (theoretical implementation)
+- * SQL or NoSQL database for backend data storage like AWS RDS (theoretical implementation)
 
 **Setup**:
 ```bash

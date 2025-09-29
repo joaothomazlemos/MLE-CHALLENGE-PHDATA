@@ -41,7 +41,7 @@ This document demonstrates completion of all project requirements and showcases 
 
 **Scaling Considerations Addressed**:
 - Horizontal Scaling: Docker Compose with multiple API replicas
-- Load Balancing: NGINX reverse proxy with least-conn distribution
+- Load Balancing: NGINX with round-robin distribution
 - Resource Management: Configurable worker processes and memory limits set in Docker Compose
 - * CPU and memory limits could be set on the AWS ECS task definitions or K8s manifest - theoretical implementation
 - * Zero-Downtime Deployment: Rolling deployment strategy - theoretical implementation on AWS SageMaker endpoints

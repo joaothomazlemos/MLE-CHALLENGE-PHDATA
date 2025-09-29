@@ -224,6 +224,15 @@ python evaluate_model.py
 - Integration test validation of deployed services
 - Performance benchmarking capabilities
 
+### Local Deployment with zero-downtime restarts
+- Sequentially restarts each API container with a wait time for health checks
+- Ensures continuous availability during updates or restarts
+- As the model is in disk troughh a volume, no need to reload the model
+```bash
+chmod +x local_deployment.sh
+./local_deployment.sh
+```
+
 
 ### Deployment Strategy (Theoretical Discussion)
 

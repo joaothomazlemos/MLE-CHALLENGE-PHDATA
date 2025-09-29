@@ -224,15 +224,34 @@ python evaluate_model.py
 - Integration test validation of deployed services
 - Performance benchmarking capabilities
 
-### Deployment Strategy
 
-**GitHub-to-AWS Pipeline**:
-- Manual-controlled deployment via GitHub Actions
-- ECR to store Docker images
-- AWS ECS SageMaker for model serving
-- rolling deployment strategy for zero downtime
-- Auto-scaling and load balancing architecture managed by AWS
-- Monitoring with AWS SageMaker Clarify and CloudWatch
+### Deployment Strategy (Theoretical Discussion)
+
+The deployment pipeline when implemented should be robust, governed, and observable on ML operations, leveraging both GitHub Actions and AWS SageMaker services:
+
+1. **CI & Testing (GitHub Actions):**
+  - Runs unit, integration, and performance tests on each new model version (e.g., v1.2).
+  - Automatically generates model metrics (MAE, R², features used) for governance and traceability.
+
+2. **Model Governance (SageMaker Model Registry):**
+  - Registers the trained model, its evaluation metrics, and the ECR Docker image URI in the SageMaker Model Registry.
+  - Introduces a formal approval gate: deployment cannot proceed until a human reviews and approves the model metrics.
+
+3. **Build & Store (GitHub Actions → AWS ECR):**
+  - Builds a SageMaker-compatible inference Docker image and pushes it to AWS ECR with a version tag.
+  - Ensures the container artifact is immutable and securely stored for reproducibility.
+
+4. **Deployment Trigger (GitHub Actions):**
+  - Deployment is triggered only after the model registry status is set to "Approved."
+  - This automated control ensures only governed, approved models are deployed to production.
+
+5. **Zero-Downtime Rollout (SageMaker Endpoint Update):**
+  - Uses blue/green deployment to seamlessly shift traffic from the old model (e.g., v1.1) to the new model (v1.2) with built-in health checks.
+  - All predictions are traceable to the specific approved model version in the registry.
+
+6. **Continuous Monitoring (SageMaker Clarify):**
+  - Continuously monitors for data drift and model quality in production.
+  - Provides a feedback loop: alerts can trigger manual rollbacks or initiate a retraining cycle if model performance degrades.
 
 ---
 
@@ -248,12 +267,15 @@ python evaluate_model.py
 | **Bonus Features** | Comnplete | Additional Endpoints + Infrastructure | See sections above |
 
 ---
+
 ## TECHNOLOGY STACK
-- **FastAPI**
-- **Pydantic**
-- **Docker Multi-stage**: one for building, one for production run-time
-- **NGINX**: Load balancing, rate limiting
-- **Horizontal Scaling**: Add/remove API instances without downtime
+
+- FastAPI + Pydantic (request/response validation)
+- ASGI server: Uvicorn (async) managed by Gunicorn (process manager)
+- Docker multi-stage builds (prod / build separation)
+- NGINX — load balancing & rate limiting (fronting Gunicorn containers)
+- Horizontal scaling ready (scale Gunicorn workers per container + orchestrator replicas)
+- Observability: structured logs, health checks, worker timeouts
 
 ---
 

@@ -261,10 +261,10 @@ The deployment pipeline when implemented should be robust, governed, and observa
 |-------------|--------|----------------|----------|
 | REST API Deployment | Complete | FastAPI + Docker + NGINX | `docker-compose up -d` |
 | Scaling Considerations | Complete | Multi-replica + Load Balancing | `docker-compose.yml` |
-| Zero-Downtime Updates | Complete | Rolling Deployment Strategy | AWS SageMaker endpoint |
+| Zero-Downtime Updates | Discussion | Blue-Green Deployment Strategy | AWS SageMaker endpoint |
 | Test Script | Complete | Business Demo + Test Suite | `python test_docker_scaling.py` |
 | Model Evaluation | Complete | Comprehensive Analysis | `python evaluate_model.py` |
-| **Bonus Features** | Comnplete | Additional Endpoints + Infrastructure | See sections above |
+| **Bonus Features** | Complete | Additional Endpoints + Infrastructure | See sections above |
 
 ---
 

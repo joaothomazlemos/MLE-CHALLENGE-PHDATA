@@ -158,7 +158,9 @@ This project reflects a systems-oriented mindset:
 └── README.md
 
 ---
-#!/usr/bin/env bash
+## Run the API
+
+```bash
 
 # ============================================================
 # End-to-End ML System — Setup & Run Script
@@ -254,11 +256,12 @@ uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 
 
 # ------------------------------------------------------------
-# 7️⃣ Optional: Run automated test script
+# Run automated test script
 # ------------------------------------------------------------
-# If you created tests/test_api.py:
 
 # python tests/test_api.py
+
+```
 
 ## Closing Note
 

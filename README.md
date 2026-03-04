@@ -158,6 +158,107 @@ This project reflects a systems-oriented mindset:
 └── README.md
 
 ---
+#!/usr/bin/env bash
+
+# ============================================================
+# End-to-End ML System — Setup & Run Script
+# ============================================================
+# This script walks you through:
+# 1. Cloning the repository
+# 2. Creating the Conda environment
+# 3. Training the model
+# 4. Starting the API
+# 5. Testing the endpoint
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1️⃣ Clone the repository
+# ------------------------------------------------------------
+# Downloads the project locally
+
+git clone https://github.com/joaothomazlemos/MLE-CHALLENGE-PHDATA.git
+cd MLE-CHALLENGE-PHDATA
+
+
+# ------------------------------------------------------------
+# 2️⃣ Create the Conda environment
+# ------------------------------------------------------------
+# Creates a reproducible Python environment
+# defined in conda_environment.yml
+
+conda env create -f conda_environment.yml
+
+
+# ------------------------------------------------------------
+# 3️⃣ Activate the environment
+# ------------------------------------------------------------
+# Activates the environment so dependencies are available
+
+conda activate housing
+
+
+# ------------------------------------------------------------
+# 4️⃣ Train the model
+# ------------------------------------------------------------
+# Generates:
+# - model/model.pkl
+# - model/model_features.json
+
+python create_model.py
+
+
+# ------------------------------------------------------------
+# 5️⃣ Start the API server
+# ------------------------------------------------------------
+# Launches the FastAPI app using Uvicorn
+# The API will be available at:
+# http://127.0.0.1:8000
+
+cd api
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+
+
+# ------------------------------------------------------------
+# 6️⃣ Test the API (run this in a NEW terminal)
+# ------------------------------------------------------------
+# Keep the server running.
+# Open another terminal and activate the environment again:
+#
+#   conda activate housing
+#
+# Then run:
+
+# curl -X POST http://127.0.0.1:8000/predict \
+#   -H "Content-Type: application/json" \
+#   -d '{
+#         "bedrooms": 3,
+#         "bathrooms": 2,
+#         "sqft_living": 1800,
+#         "sqft_lot": 5000,
+#         "floors": 1,
+#         "waterfront": 0,
+#         "view": 0,
+#         "condition": 3,
+#         "grade": 7,
+#         "sqft_above": 1800,
+#         "sqft_basement": 0,
+#         "yr_built": 1995,
+#         "yr_renovated": 0,
+#         "zipcode": 98103,
+#         "lat": 47.65,
+#         "long": -122.34,
+#         "sqft_living15": 1700,
+#         "sqft_lot15": 4800
+#       }'
+
+
+# ------------------------------------------------------------
+# 7️⃣ Optional: Run automated test script
+# ------------------------------------------------------------
+# If you created tests/test_api.py:
+
+# python tests/test_api.py
 
 ## Closing Note
 
